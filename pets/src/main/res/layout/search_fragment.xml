@@ -2,18 +2,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:padding="40dp"
+    android:gravity="center_horizontal"
     android:layout_height="match_parent">
 
-    <ProgressBar
-        android:id="@+id/growth"
+    <Button
+        android:id="@+id/auto_match"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:max="100"
-        android:progress="20" />
+        android:text="自动匹配" />
 
-    <TextView
+    <RelativeLayout
+        android:id="@+id/search_layout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello" />
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/id_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="输入主人id" />
+
+        <Button
+            android:id="@+id/search_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/id_input"
+            android:text="查找" />
+
+    </RelativeLayout>
 
 </LinearLayout>

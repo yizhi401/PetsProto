@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import cn.peterchen.pets.R;
+import cn.peterchen.pets.global.Constant;
 
 
 public class MainActivity extends Activity implements MainFragment.OnFragmentInteractionListener {
@@ -19,7 +20,9 @@ public class MainActivity extends Activity implements MainFragment.OnFragmentInt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        mainFragment = MainFragment.newInstance(null);
+        Bundle data = new Bundle();
+        data.putInt("viewType", Constant.MASTER_VIEW);
+        mainFragment = MainFragment.newInstance(data);
         getFragmentManager().beginTransaction().add(R.id.main_fragment_container, mainFragment).commit();
 
     }

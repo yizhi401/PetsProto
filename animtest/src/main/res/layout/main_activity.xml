@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <cn.peterchen.animtest.GameSurface
+        android:id="@+id/surfaceview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/score"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/surfaceview"
+        android:layout_margin="10dp"
+        android:background="@drawable/score_bg"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="得分"
+        android:textColor="@color/num_light" />
+
+    <TextView
+        android:id="@+id/max_num"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/surfaceview"
+        android:layout_margin="10dp"
+        android:layout_toRightOf="@id/score"
+        android:background="@drawable/score_bg"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="最大值"
+        android:textColor="@color/num_light" />
+
+    <TextView
+        android:id="@+id/best_score"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/score"
+        android:layout_margin="10dp"
+        android:background="@drawable/score_bg"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="最高分：1271"
+        android:textColor="@color/num_light" />
+
+    <TextView
+        android:id="@+id/best_max"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/max_num"
+        android:layout_margin="10dp"
+        android:layout_toRightOf="@id/best_score"
+        android:background="@drawable/score_bg"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="最高值：1024"
+        android:textColor="@color/num_light" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/restart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/refresh" />
+
+        <Button
+            android:id="@+id/share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/share" />
+
+        <Button
+            android:id="@+id/hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/info" />
+
+        <Button
+            android:id="@+id/quit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/quit" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -5,5 +5,9 @@ package cn.peterchen.pets.global;
  */
 public class Constant {
 
+    public static final int MASTER_VIEW = 0;
+    public static final int PET_VIEW = 1;
+
+
     public static final String SP_PET = "sp_pet";
 }

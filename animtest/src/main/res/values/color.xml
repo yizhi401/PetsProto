@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main_bg">#F9f7ee</color>
+    <color name="main_box">#BAAC9F</color>
+    <color name="num_deep">#766D64</color>
+    <color name="num_light">#F8F5F1</color>
+    <color name="num_0_bg">#CBBFB2</color>
+    <color name="num_2_bg">#EDE3D9</color>
+    <color name="num_4_bg">#ECDFC7</color>
+    <color name="num_8_bg">#F1B078</color>
+    <color name="num_16_bg">#F49462</color>
+    <color name="num_32_bg">#F57B5E</color>
+    <color name="num_64_bg">#F55D3A</color>
+    <color name="num_big_bg">#ECCB60</color>
+</resources>

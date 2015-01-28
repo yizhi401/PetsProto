@@ -10,7 +10,6 @@ import cn.peterchen.pets.entity.Pet;
  */
 public class PetApplication extends Application {
 
-
     private Context context;
 
     @Override
