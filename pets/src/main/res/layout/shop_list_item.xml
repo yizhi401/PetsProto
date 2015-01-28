@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="汉堡" />
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name"
+        android:layout_margin="10dp"
+        android:src="@drawable/shop_item" />
+
+    <TextView
+        android:id="@+id/buy_price"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/image"
+        android:layout_height="wrap_content"
+        android:text="买入：50" />
+
+    <TextView
+        android:id="@+id/sell_price"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/buy_price"
+        android:layout_height="wrap_content"
+        android:text="卖出：50" />
+
+    <TextView
+        android:id="@+id/num_text"
+        android:layout_width="wrap_content"
+        android:layout_toRightOf="@id/image"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"
+        android:text="数量:" />
+
+    <EditText
+        android:id="@+id/num_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/num_text"
+        android:textSize="15sp"
+        android:hint="输入要购买的数量" />
+
+    <TextView
+        android:id="@+id/storage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/num_edit"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/image"
+        android:text="我的库存：15" />
+
+    <Button
+        android:id="@+id/buy_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/storage"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/image"
+        android:text="买入" />
+
+    <Button
+        android:id="@+id/sell_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/storage"
+        android:layout_toRightOf="@id/buy_btn"
+        android:text="卖出" />
+
+
+</RelativeLayout>

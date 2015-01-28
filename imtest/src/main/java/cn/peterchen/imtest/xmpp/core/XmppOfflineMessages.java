@@ -1,0 +1,54 @@
+package cn.peterchen.imtest.xmpp.core;
+
+import java.util.List;
+
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smack.util.StringUtils;
+import org.jivesoftware.smackx.offline.OfflineMessageManager;
+
+import android.content.Context;
+
+import cn.peterchen.imtest.xmpp.tool.Log;
+import cn.peterchen.imtest.xmpp.tool.Tools;
+
+
+/**
+ * This class handles when the user get online, how those offline messages will be present to the user
+ * @author peter
+ *
+ */
+public class XmppOfflineMessages {
+
+	public static void handleOfflineMessages(XMPPConnection connection, String[] notifiedAddresses, Context ctx)
+	        throws Exception {
+		Log.i("Begin retrieval of offline messages from server");
+		OfflineMessageManager offlineMessageManager = new OfflineMessageManager(connection);
+
+		if (!offlineMessageManager.supportsFlexibleRetrieval()) {
+            Log.d("Offline messages not supported");
+            return;
+        }
+
+		if (offlineMessageManager.getMessageCount() == 0) {
+			Log.d("No offline messages found on server");
+		} else {
+            List<Message> msgs = offlineMessageManager.getMessages();
+            for (Message msg : msgs) {
+                String fullJid = msg.getFrom();
+                String bareJid = StringUtils.parseBareAddress(fullJid);
+                String messageBody = msg.getBody();
+                if (messageBody != null) {
+                    Log.d("Retrieved offline message from " + fullJid + " with content: " + messageBody.substring(0, Math.min(40, messageBody.length())));
+                    for (String notifiedAddress : notifiedAddresses) {
+                        if (bareJid.equals(notifiedAddress)) {
+                            Tools.startSvcXMPPMsg(ctx, messageBody, fullJid);
+                        }
+                    }
+                }
+            }
+            offlineMessageManager.deleteMessages();
+        }
+		Log.i("End of retrieval of offline messages from server");
+	}
+}

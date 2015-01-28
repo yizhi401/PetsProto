@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="30dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/name_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/pet_img"
+            android:layout_width="60dp"
+            android:src="@drawable/pets_avatar"
+            android:layout_height="60dp" />
+
+        <TextView
+            android:id="@+id/pet_name"
+            android:layout_width="wrap_content"
+            android:layout_toRightOf="@id/pet_img"
+            android:textSize="25dp"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="小萌" />
+
+        <TextView
+            android:id="@+id/level"
+            android:text="1级"
+            android:textColor="@color/white"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:background="@color/blue"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/pet_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+    <!-- 此处以后要封装一个专门的控件来显示-->
+
+    <RelativeLayout
+        android:id="@+id/growth_layout"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/growth_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="成长" />
+
+        <ProgressBar
+            android:id="@+id/growth_progress"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:layout_toRightOf="@id/growth_text"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:progress="20" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/hungry_layout"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/hungry_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="饥饿" />
+
+        <ProgressBar
+            android:id="@+id/hungry_progress"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:layout_toRightOf="@id/hungry_text"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:progress="20" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/tired_layout"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tired_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="疲劳" />
+
+        <ProgressBar
+            android:id="@+id/tired_progress"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:layout_toRightOf="@id/tired_text"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:progress="20" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/mood_layout"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/mood_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="心情" />
+
+        <ProgressBar
+            android:id="@+id/mood_progress"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:layout_toRightOf="@id/mood_text"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:progress="20" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/health_layout"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/health_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="健康" />
+
+        <ProgressBar
+            android:id="@+id/health_progress"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:layout_toRightOf="@id/health_text"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:progress="20" />
+    </RelativeLayout>
+
+
+</LinearLayout>
