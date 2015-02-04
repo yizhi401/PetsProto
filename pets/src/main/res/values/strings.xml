@@ -6,4 +6,61 @@
     <string name="action_settings">Settings</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+
+    <!-- chat file transfer -->
+    <string name="chat_file_transfer_dir">Directories within %1$s</string>
+    <string name="chat_file_transfer_error">Cannot send the file because an error occurred during the process: %1$s</string>
+    <string name="chat_file_transfer_error_msg">File Transfer Error</string>
+    <string name="chat_file_transfer_error_stream">Negotiating stream failed</string>
+    <string name="chat_file_transfer_file">File transfer: %1$s - %2$s</string>
+    <string name="chat_file_transfer_files">Files within %1$s</string>
+    <string name="chat_file_transfer_file_already_exists">The file %1$s already exists</string>
+    <string name="chat_file_transfer_file_complete">File transfer complete. File saved as %1$s</string>
+    <string name="chat_file_transfer_file_not_mount">External Media not mounted read/write</string>
+    <string name="chat_file_transfer_file_rejected">File transfer from %1$s rejected.</string>
+    <string name="chat_file_transfer_not_dir">%1$s is not a directory</string>
+    <string name="chat_file_transfer_no_file">No file in %1$s</string>
+    <string name="chat_file_transfer_refused">Could not send the file. Refused by peer.</string>
+    <string name="chat_file_transfer_started">File transfer starting: %1$s - %2$d KB</string>
+
+    <!--  -->
+    <string name="chat_call_duration">&#xA0;of&#xA0;</string>
+    <string name="chat_call_hidden">[hidden number]</string>
+    <string name="chat_call_incoming">Incoming</string>
+    <string name="chat_call_missed">Missed</string>
+    <string name="chat_call_outgoing">Outgoing</string>
+    <string name="chat_call_unknown">Unknown</string>
+
+    <!--  -->
+    <string name="xmpp_muc_sms">SMS conversation with&#xA0;</string>
+    <string name="xmpp_muc_shell">New Android Terminal&#xA0;</string>
+    <string name="chat_sms_muc_conf_error">Incoming Message: Unable to send conference room configuration form. Ex: %s</string>
+
+    <!--  -->
+    <string name="chat_welcome">Welcome to GTalkSMS %s. Send \"?\" for getting help.</string>
+    <string name="xmpp_manager_invalid_credentials">Invalid username or password.</string>
+
+    <!--  -->
+    <string name="or">&#xA0;or&#xA0;</string>
+    <string name="chat_specify_details">Specify more details:</string>
+
+    <!--  -->
+    <string name="chat_help_recipient">displays the last recipient.</string>
+    <string name="chat_reply_contact">Reply contact is %s</string>
+    <string name="chat_error_no_recipient">Reply contact is not set.</string>
+
+    <!-- mani service -->
+    <string name="chat_sms_from">Message from %s:&#xA0;</string>
+    <string name="chat_command_disabled">This command has been disabled.</string>
+    <string name="chat_error">Error: %s</string>
+    <string name="chat_stop_actions">Stopping ongoing actions</string>
+    <string name="chat_error_unknown_cmd">\'%s\': unknown command. Send \"?\" for help.</string>
+    <string name="main_service_notification_stop_ringing">Click here to stop the \"ring\" command</string>
+    <string name="main_service_connected">Connected at %1$s</string>
+    <string name="main_service_connecting">Connecting&#8230;</string>
+    <string name="main_service_disconnected">Disconnected</string>
+    <string name="main_service_disconnecting">Disconnecting&#8230;</string>
+    <string name="main_service_waiting">Waiting&#8230;</string>
+    <string name="main_service_waiting_to_connect">Waiting to connect&#8230;</string>
+
 </resources>

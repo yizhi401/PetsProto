@@ -1,16 +1,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@drawable/background">
+    android:layout_height="match_parent">
+
+    <cn.peterchen.pets.ui.game.GameSurface
+        android:id="@+id/game_surface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <RelativeLayout
         android:id="@+id/up_panel"
         android:layout_width="match_parent"
         android:layout_alignParentTop="true"
+        android:layout_margin="10dp"
         android:layout_height="wrap_content">
 
         <TextView
@@ -43,6 +44,7 @@
     <RelativeLayout
         android:id="@+id/left_side_panel"
         android:layout_width="wrap_content"
+        android:layout_margin="10dp"
         android:layout_below="@id/up_panel"
         android:layout_height="wrap_content">
 
@@ -72,6 +74,7 @@
         android:id="@+id/right_side_panel"
         android:layout_width="wrap_content"
         android:layout_below="@id/up_panel"
+        android:layout_margin="10dp"
         android:layout_alignParentRight="true"
         android:layout_height="wrap_content">
 
@@ -94,37 +97,12 @@
             android:layout_height="60dp"
             android:layout_below="@id/search"
             android:text="宠物" />
-
-
-    </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/pets"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:src="@drawable/pets"
-        android:layout_centerInParent="true" />
-
-    <RelativeLayout
-        android:id="@+id/status_layout"
-        android:layout_width="wrap_content"
-        android:layout_above="@id/pets"
-        android:layout_centerHorizontal="true"
-        android:layout_height="wrap_content"
-        android:visibility="visible">
-
-        <TextView
-            android:text="正在卖萌..."
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp" />
-
     </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/button_layout"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="10dp"
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

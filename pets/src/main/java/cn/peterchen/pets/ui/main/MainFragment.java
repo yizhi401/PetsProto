@@ -3,19 +3,32 @@ package cn.peterchen.pets.ui.main;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Vibrator;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import cn.peterchen.pets.R;
 import cn.peterchen.pets.global.Constant;
 import cn.peterchen.pets.ui.chat.ChatFragment;
 import cn.peterchen.pets.ui.function.FunctionFragment;
+import cn.peterchen.pets.ui.game.GameController;
+import cn.peterchen.pets.ui.game.GameSurface;
 import cn.peterchen.pets.ui.search.SearchFragment;
 import cn.peterchen.pets.ui.shop.ShopFragment;
 import cn.peterchen.pets.ui.status.StatusFragment;
@@ -31,6 +44,7 @@ public class MainFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private GameSurface surface;
     private ViewGroup rootView;
     private Button statusBtn;
     private Button shopBtn;
@@ -39,13 +53,39 @@ public class MainFragment extends Fragment {
     private Button searchBtn;
     private Button changeBtn;
     private TextView petNameText;
-    private ImageView petImage;
     private TextView petStatusText;
     private Button btn1;
     private Button btn2;
     private Button btn3;
     private Button btn4;
     private Button funcBtn;
+
+
+    private SensorManager sensorManager;
+    private Vibrator vibrator;
+    private static final int SENSOR_SHAKE = 10;
+
+    private SensorEventListener sensorEventListener = new MySensorEventListener();
+
+    /**
+     * 动作执行
+     */
+    private Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case SENSOR_SHAKE:
+//                    Toast.makeText(getActivity(), "检测到摇晃，执行操作！", Toast.LENGTH_SHORT).show();
+//                    Log.i("mInfo", "检测到摇晃，执行操作！");
+                    GameController.getInstance().setGameStatus(GameController.STATUS_MINI_GAME);
+                    break;
+            }
+        }
+
+    };
+
 
     /**
      * Use this factory method to create a new instance of
@@ -69,6 +109,8 @@ public class MainFragment extends Fragment {
         if (getArguments() != null) {
             viewType = getArguments().getInt("viewType");
         }
+        sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
+        vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
     }
 
     @Override
@@ -89,7 +131,6 @@ public class MainFragment extends Fragment {
             shopBtn.setVisibility(View.VISIBLE);
             storageBtn.setVisibility(View.VISIBLE);
             petNameText.setText("小萌");
-            petImage.setImageResource(R.drawable.pets);
             btn1.setText("吃饭");
             btn2.setText("学习");
             btn3.setText("打工");
@@ -98,7 +139,6 @@ public class MainFragment extends Fragment {
             shopBtn.setVisibility(View.GONE);
             storageBtn.setVisibility(View.GONE);
             petNameText.setText("咩咩");
-            petImage.setImageResource(R.drawable.pets_me);
             btn1.setText("找吃的");
             btn2.setText("睡懒觉");
             btn3.setText("卖卖萌");
@@ -140,13 +180,36 @@ public class MainFragment extends Fragment {
 
         petNameText = (TextView) rootView.findViewById(R.id.name);
         petStatusText = (TextView) rootView.findViewById(R.id.status);
-        petImage = (ImageView) rootView.findViewById(R.id.pets);
         btn1 = (Button) rootView.findViewById(R.id.btn1);
         btn2 = (Button) rootView.findViewById(R.id.btn2);
         btn3 = (Button) rootView.findViewById(R.id.btn3);
         btn4 = (Button) rootView.findViewById(R.id.btn4);
 
-
+        surface = (GameSurface) rootView.findViewById(R.id.game_surface);
+        surface.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Log.i("mInfo", "Action down");
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        Log.i("mInfo", "Action Move ");
+                        break;
+                    case MotionEvent.ACTION_CANCEL:
+                        Log.i("mInfo", "Action Cancel");
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        Log.i("mInfo", "Action Up");
+                        if (GameController.getInstance().getCommand() == GameController.COMMAND_NORMAL)
+                            GameController.getInstance().setCommand(GameController.COMMAND_PRESSED);
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     private View.OnClickListener getFragmentClickListener(final Class<? extends DialogFragment> dialogFragmentClass, final String tag) {
@@ -175,6 +238,24 @@ public class MainFragment extends Fragment {
         }
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (sensorManager != null) {
+            sensorManager.registerListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+        }
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (sensorManager != null) {
+            sensorManager.unregisterListener(sensorEventListener);
+        }
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -191,5 +272,31 @@ public class MainFragment extends Fragment {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
+
+    class MySensorEventListener implements SensorEventListener {
+
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            // 传感器信息改变时执行该方法
+            float[] values = event.values;
+            float x = values[0]; // x轴方向的重力加速度，向右为正
+            float y = values[1]; // y轴方向的重力加速度，向前为正
+            float z = values[2]; // z轴方向的重力加速度，向上为正
+            int threShold = 13;
+            if (Math.abs(x) > threShold || Math.abs(y) > threShold || Math.abs(z) > threShold) {
+                vibrator.vibrate(200);
+                Message msg = new Message();
+                msg.what = SENSOR_SHAKE;
+                handler.sendMessage(msg);
+            }
+
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
+    }
+
 
 }

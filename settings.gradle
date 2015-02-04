@@ -1,2 +1,3 @@
 include ':animtest'
 include ":pets"
+include ":imtest"

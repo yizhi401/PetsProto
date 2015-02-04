@@ -42,8 +42,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="ui.ChatActivity"></activity>
-        <activity android:name="ui.MainActivity"></activity>
+        <activity android:name="cn.peterchen.imtest.ui.ChatActivity"></activity>
+        <activity android:name="cn.peterchen.imtest.ui.MainActivity"></activity>
 
         <service
             android:name="cn.peterchen.imtest.xmpp.core.MainService"
