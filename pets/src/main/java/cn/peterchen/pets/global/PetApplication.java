@@ -11,10 +11,17 @@ import cn.peterchen.pets.entity.Pet;
 public class PetApplication extends Application {
 
     private Context context;
+    private static PetApplication instance;
+//    private RequestQueue
+
+    public static PetApplication getInstance() {
+        return instance;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
         context = getBaseContext();
         initPet();
     }

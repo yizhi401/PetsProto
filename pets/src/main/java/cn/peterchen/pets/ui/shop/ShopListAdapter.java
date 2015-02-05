@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import cn.peterchen.pets.R;
-import cn.peterchen.pets.common.MyBaseAdapter;
+import cn.peterchen.pets.common.base.MyBaseAdapter;
 import cn.peterchen.pets.entity.ShopItem;
 
 /**
