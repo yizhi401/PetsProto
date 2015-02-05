@@ -23,6 +23,7 @@ import java.util.List;
 import cn.peterchen.pets.R;
 import cn.peterchen.pets.entity.User;
 import cn.peterchen.pets.xmpp.core.MainService;
+import cn.peterchen.pets.xmpp.core.SettingsManager;
 import cn.peterchen.pets.xmpp.core.XmppMsg;
 import cn.peterchen.pets.xmpp.tool.Tools;
 
@@ -45,12 +46,35 @@ public class ChatFragment extends DialogFragment {
             }
         }
     };
+    public static final String TAG = ChatFragment.class.getName();
 
-    public static void start(Context context, Bundle bundle) {
-        Intent intent = new Intent(context, ChatActivity.class);
-        intent.putExtras(bundle);
-        context.startActivity(intent);
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NO_FRAME, android.R.style.Theme_Holo_Dialog);
+//        friend = new User("boy2", "boy2");
+        if (SettingsManager.getSettingsManager(getActivity()).getLogin().equals("boy")) {
+            friend = new User("boy2", "boy2");
+        } else {
+            friend = new User("boy", "boy");
+        }
     }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.chat_fragment, container, false);
+
+        initViews(rootView);
+        return rootView;
+    }
+
+//    public static void start(Context context, Bundle bundle) {
+//        Intent intent = new Intent(context, ChatActivity.class);
+//        intent.putExtras(bundle);
+//        context.startActivity(intent);
+//    }
 
 
     private void initViews(ViewGroup rootView) {
@@ -61,14 +85,14 @@ public class ChatFragment extends DialogFragment {
         TextView companionLabel = (TextView) rootView.findViewById(R.id.companionLabel);
         RelativeLayout container = (RelativeLayout) rootView.findViewById(R.id.container);
 
-        adapter = new ChatAdapter(this, new ArrayList<XmppMsg>());
+        adapter = new ChatAdapter(getActivity(), new ArrayList<XmppMsg>());
         messagesContainer.setAdapter(adapter);
 
 //        Intent intent = getIntent();
 //        int userId = intent.getIntExtra("EXTRA_USER_ID", 0);
         int userId = 0;
         companionLabel.setText("user(id" + "test" + ")");
-        restoreMessagesFromHistory(userId);
+//        restoreMessagesFromHistory(userId);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,11 +123,11 @@ public class ChatFragment extends DialogFragment {
         super.onResume();
         IntentFilter filter = new IntentFilter();
         filter.addAction(MainService.ACTION_XMPP_MESSAGE_RECEIVED);
-//        this.registerReceiver(msgReceiver, filter);
+        getActivity().registerReceiver(msgReceiver, filter);
     }
 
     public void showMessage(XmppMsg message) {
-        saveMessageToHistory(message);
+//        saveMessageToHistory(message);
         adapter.add(message);
         adapter.notifyDataSetChanged();
         scrollDown();
@@ -123,40 +147,23 @@ public class ChatFragment extends DialogFragment {
         scrollDown();
     }
 
-    private void saveMessageToHistory(XmppMsg message) {
-        // if (mode == Mode.SINGLE) {
-        // ((App)getApplication()).addMessage(getIntent().getIntExtra(SingleChat.EXTRA_USER_ID,
-        // 0), message);
-        // }
-    }
-
-    private void restoreMessagesFromHistory(int userId) {
-        // List<XmppMsg> messages = ((App)getApplication()).getMessages(userId);
-        // if (messages != null) {
-        // showMessage(messages);
-        // }
-    }
+//    private void saveMessageToHistory(XmppMsg message) {
+//        if (mode == Mode.SINGLE) {
+//        ((App)getApplication()).addMessage(getIntent().getIntExtra(SingleChat.EXTRA_USER_ID,
+//        0), message);
+//        }
+//    }
+//
+//    private void restoreMessagesFromHistory(int userId) {
+//        List<XmppMsg> messages = ((App)getApplication()).getMessages(userId);
+//        if (messages != null) {
+//        showMessage(messages);
+//        }
+//    }
 
     private void scrollDown() {
         messagesContainer.setSelection(messagesContainer.getCount() - 1);
     }
 
-    public static final String TAG = ChatFragment.class.getName();
 
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NO_FRAME, android.R.style.Theme_Holo_Dialog);
-        friend = new User("boy2", "boy2");
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.chat_fragment, container, false);
-
-        initViews(rootView);
-        return rootView;
-    }
 }

@@ -3,6 +3,8 @@
     package="cn.peterchen.pets">
 
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".global.PetApplication"
@@ -19,6 +21,34 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:name=".xmpp.core.MainService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="cn.peterchen.pets.action.CONNECT" />
+                <action android:name="cn.peterchen.pets.action.DISCONNECT" />
+                <action android:name="cn.peterchen.pets.action.TOGGLE" />
+                <action android:name="cn.peterchen.pets.action.SEND" />
+                <action android:name="cn.peterchen.pets.action.NETWORK_STATUS_CHANGED" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name="cn.peterchen.pets.xmpp.receivers.PublicIntentReceiver">
+            <intent-filter>
+                <action android:name="cn.peterchen.pets.action.CONNECT" />
+                <action android:name="cn.peterchen.pets.action.DISCONNECT" />
+                <action android:name="cn.peterchen.pets.action.TOGGLE" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="cn.peterchen.pets.xmpp.receivers.NetworkConnectivityReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

@@ -28,27 +28,27 @@ import cn.peterchen.pets.xmpp.core.XmppMsg;
 
 
 public class Tools {
-    public final static String LOG_TAG = "MosDemo";
-    public final static String APP_NAME = "MosDemo";
+    public final static String LOG_TAG = "Pets";
+    public final static String APP_NAME = "Pets";
     public final static String LineSep = System.getProperty("line.separator");
     private final static int shortenTo = 35;
-    
+
     public static String getFileFormat(Calendar c) {
-        return 
-            c.get(Calendar.YEAR) + 
-            "-" + 
-            String.format("%02d", (c.get(Calendar.MONTH)+ 1)) + 
-            "-" + 
-            String.format("%02d", c.get(Calendar.DAY_OF_MONTH)) + 
-            " " + 
-            String.format("%02d", c.get(Calendar.HOUR_OF_DAY)) + 
-            "h" + 
-            String.format("%02d", c.get(Calendar.MINUTE)) + 
-            "m" + 
-            String.format("%02d", c.get(Calendar.SECOND)) + 
-            "s";
+        return
+                c.get(Calendar.YEAR) +
+                        "-" +
+                        String.format("%02d", (c.get(Calendar.MONTH) + 1)) +
+                        "-" +
+                        String.format("%02d", c.get(Calendar.DAY_OF_MONTH)) +
+                        " " +
+                        String.format("%02d", c.get(Calendar.HOUR_OF_DAY)) +
+                        "h" +
+                        String.format("%02d", c.get(Calendar.MINUTE)) +
+                        "m" +
+                        String.format("%02d", c.get(Calendar.SECOND)) +
+                        "s";
     }
-    
+
     public static String getVersionName(Context context) {
 
         try {
@@ -57,7 +57,7 @@ public class Tools {
             return "";
         }
     }
-    
+
     public static String getVersion(Context context, Class<?> cls) {
 
         try {
@@ -67,7 +67,7 @@ public class Tools {
             return "";
         }
     }
-    
+
     public static String getVersionCode(Context context, Class<?> cls) {
 
         try {
@@ -79,15 +79,15 @@ public class Tools {
             return "";
         }
     }
-    
+
     public static <T> List<T> getLastElements(ArrayList<T> list, int nbElems) {
         return list.subList(Math.max(list.size() - nbElems, 0), list.size());
     }
-    
+
     public static Long getLong(Cursor c, String col) {
         return c.getLong(c.getColumnIndex(col));
     }
-    
+
     public static int getInt(Cursor c, String col) {
         return c.getInt(c.getColumnIndex(col));
     }
@@ -107,7 +107,7 @@ public class Tools {
     public static Date getDateMilliSeconds(Cursor c, String col) {
         return new Date(Long.parseLong(Tools.getString(c, col)));
     }
-    
+
     public static void setLocale(SettingsManager setting, Context context) {
 
         Configuration config = new Configuration();
@@ -115,15 +115,16 @@ public class Tools {
         config.locale = setting.locale;
         context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
     }
-    
+
     public static boolean isInt(String value) {
         try {
             Integer.parseInt(value);
             return true;
-        } catch (NumberFormatException nfe) {}
+        } catch (NumberFormatException nfe) {
+        }
         return false;
     }
-    
+
     public static Boolean parseBool(String value) {
         Boolean res = null;
         if (value.compareToIgnoreCase("true") == 0) {
@@ -133,38 +134,40 @@ public class Tools {
         }
         return res;
     }
-    
+
     public static Integer parseInt(String value) {
         Integer res = null;
-        try { 
-            res = Integer.parseInt(value); 
-        } catch(Exception e) {}
-        
+        try {
+            res = Integer.parseInt(value);
+        } catch (Exception e) {
+        }
+
         return res;
     }
-    
+
     public static Integer parseInt(String value, Integer defaultValue) {
         Integer res = defaultValue;
-        try { 
-            res = Integer.parseInt(value); 
-        } catch(Exception e) {}
-        
+        try {
+            res = Integer.parseInt(value);
+        } catch (Exception e) {
+        }
+
         return res;
     }
-    
+
     public static int getMinNonNeg(int... x) {
         int min = Integer.MAX_VALUE;
-        for(int i : x) {
-            if(i >= 0 && i < min)
+        for (int i : x) {
+            if (i >= 0 && i < min)
                 min = i;
         }
         return min;
     }
-    
+
     public static boolean isDonateAppInstalled(Context context) {
         return context.getPackageManager().checkSignatures(context.getPackageName(), "com.googlecode.gtalksmsdonate") == PackageManager.SIGNATURE_MATCH;
     }
-    
+
     public static boolean copyFile(File from, File to) {
         if (!from.isFile() || !to.isFile())
             return false;
@@ -201,7 +204,7 @@ public class Tools {
         }
         return true;
     }
-    
+
     public static boolean writeFile(byte[] data, File file) {
         FileOutputStream fos;
         try {
@@ -213,17 +216,17 @@ public class Tools {
             return false;
         }
     }
-    
+
     private static String getAppBaseDir(Context ctx) {
         String filesDir = ctx.getFilesDir().toString();
         int index = filesDir.indexOf("/files");
         return filesDir.substring(0, index);
     }
-    
+
     public static String getSharedPrefDir(Context ctx) {
         return getAppBaseDir(ctx) + "/shared_prefs";
     }
-    
+
     public static String shortenString(String s) {
         if (s.length() > 20) {
             return s.substring(0, 20);
@@ -231,7 +234,7 @@ public class Tools {
             return s;
         }
     }
-    
+
     public static String shortenMessage(String message) {
         String shortenedMessage;
         if (message == null) {
@@ -242,25 +245,25 @@ public class Tools {
             shortenedMessage = message.substring(0, shortenTo).replace("\n", " ") + "...";
         }
         return shortenedMessage;
-    }    
-    
+    }
+
     /**
      * Sends an String via an service intent
-     * 
+     *
      * @param msg
-     * @param to destination jid, can be null
+     * @param to  destination jid, can be null
      * @param ctx
      * @return
      */
     public static boolean send(String msg, String to, Context ctx) {
         return send(new XmppMsg(msg), to, ctx);
     }
-    
+
     /**
      * Sends a XMPP Message via an service intent
-     * 
+     *
      * @param msg
-     * @param to destination jid, can be null
+     * @param to  destination jid, can be null
      * @param ctx
      * @return
      */
@@ -273,10 +276,10 @@ public class Tools {
         intent.putExtra("xmppMsg", msg);
         return MainService.sendToServiceHandler(intent);
     }
-    
+
     /**
      * Starts the service with the given action
-     * 
+     *
      * @param ctx
      * @param action
      */
@@ -284,14 +287,14 @@ public class Tools {
         final Intent i = newSvcIntent(ctx, action, null, null);
         ctx.startService(i);
     }
-    
+
     /**
      * Composes a new intent for the GTalkSMS MainService
-     * 
+     *
      * @param ctx
      * @param action
      * @param message the String extra "message", can be null
-     * @param to the String extra "to", can be null for default notification address
+     * @param to      the String extra "to", can be null for default notification address
      * @return
      */
     public static Intent newSvcIntent(final Context ctx, final String action, final String message, final String to) {
@@ -304,10 +307,10 @@ public class Tools {
         }
         return i;
     }
-    
+
     /**
      * Starts the GTalkSMS Service with an XMPP Message Received intent
-     * 
+     *
      * @param ctx
      * @param message
      * @param from
@@ -318,16 +321,16 @@ public class Tools {
         i.putExtra("from", from);
         MainService.sendToServiceHandler(i);
     }
-    
+
     public static void openLink(Context context, String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
-    
+
     /**
      * Returns a String in the simple date format
-     * 
+     *
      * @return the current date in dd/MM/yyyy format
      */
     public static String currentDate() {
@@ -335,13 +338,13 @@ public class Tools {
         Calendar cal = Calendar.getInstance();
         return DATE_FORMAT.format(cal.getTime());
     }
-    
+
     public static String ipIntToString(int ip) {
-        return String.format("%d.%d.%d.%d", 
-        (ip & 0xff), 
-        (ip >> 8 & 0xff),
-        (ip >> 16 & 0xff),
-        (ip >> 24 & 0xff));
+        return String.format("%d.%d.%d.%d",
+                (ip & 0xff),
+                (ip >> 8 & 0xff),
+                (ip >> 16 & 0xff),
+                (ip >> 24 & 0xff));
     }
 
     public static String STMArrayToString(StackTraceElement[] stma) {

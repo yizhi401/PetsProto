@@ -282,7 +282,7 @@ public class MainFragment extends Fragment {
             float x = values[0]; // x轴方向的重力加速度，向右为正
             float y = values[1]; // y轴方向的重力加速度，向前为正
             float z = values[2]; // z轴方向的重力加速度，向上为正
-            int threShold = 13;
+            int threShold = 14;
             if (Math.abs(x) > threShold || Math.abs(y) > threShold || Math.abs(z) > threShold) {
                 vibrator.vibrate(200);
                 Message msg = new Message();
