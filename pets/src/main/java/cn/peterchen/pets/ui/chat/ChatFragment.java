@@ -22,6 +22,7 @@ import java.util.List;
 
 import cn.peterchen.pets.R;
 import cn.peterchen.pets.entity.User;
+import cn.peterchen.pets.global.NetConstants;
 import cn.peterchen.pets.xmpp.core.MainService;
 import cn.peterchen.pets.xmpp.core.SettingsManager;
 import cn.peterchen.pets.xmpp.core.XmppMsg;
@@ -88,10 +89,7 @@ public class ChatFragment extends DialogFragment {
         adapter = new ChatAdapter(getActivity(), new ArrayList<XmppMsg>());
         messagesContainer.setAdapter(adapter);
 
-//        Intent intent = getIntent();
-//        int userId = intent.getIntExtra("EXTRA_USER_ID", 0);
-        int userId = 0;
-        companionLabel.setText("user(id" + "test" + ")");
+        companionLabel.setText(friend.username);
 //        restoreMessagesFromHistory(userId);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +104,7 @@ public class ChatFragment extends DialogFragment {
                 XmppMsg msg = new XmppMsg(lastMsg);
                 msg.setIncoming(false);
                 showMessage(msg);
-                Tools.send(lastMsg, friend.username + "@182.92.74.54",
+                Tools.send(lastMsg, friend.username + "@" + NetConstants.IM_SERVER,
                         getActivity());
             }
         });

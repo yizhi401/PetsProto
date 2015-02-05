@@ -66,7 +66,7 @@ public class Pet {
         return pet;
     }
 
-    public void eat(Food food) {
+    public void eat(ShopItem food) {
         pet.property.hungry += food.effect;
     }
 

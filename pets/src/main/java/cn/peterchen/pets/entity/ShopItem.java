@@ -16,4 +16,6 @@ public class ShopItem {
     public int myStorage;
 
     public String effectsDes;
+
+    public int effect;
 }

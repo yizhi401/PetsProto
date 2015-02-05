@@ -59,8 +59,8 @@ public class GameThread extends Thread {
 
         atlas = BitmapFactory.decodeResource(context.getResources(), R.drawable.atlas);
         background = BitmapFactory.decodeResource(context.getResources(), R.drawable.background);
-        figure = BitmapFactory.decodeResource(context.getResources(), R.drawable.pets_me);
-        skybg = BitmapFactory.decodeResource(context.getResources(), R.drawable.sky);
+        figure = BitmapFactory.decodeResource(context.getResources(), R.drawable.pets);
+        skybg = BitmapFactory.decodeResource(context.getResources(), R.drawable.skybg);
         skyStart = 0;
         this.isRun = false;
         gameController = GameController.getInstance();
@@ -68,7 +68,9 @@ public class GameThread extends Thread {
 
         backgroundRect = new Rect(0, 0, background.getWidth(), background.getHeight());
         figureSrc = new Rect(0, 0, figure.getWidth(), figure.getHeight());
-        figureDest = new Rect(200, 200, 200 + figure.getWidth(), 200 + figure.getHeight());
+        int figureStartX = (screenRect.width() - figure.getWidth()) / 2;
+        int figureStartY = (screenRect.height() - figure.getHeight()) / 2;
+        figureDest = new Rect(figureStartX, figureStartY, figureStartX + figure.getWidth(), figureStartY + figure.getHeight());
         skySrc = new Rect();
 
     }
@@ -81,7 +83,7 @@ public class GameThread extends Thread {
             skySrc.right = skySrc.left + skybg.getWidth() / 2;
             skySrc.bottom = skySrc.top + skybg.getHeight();
             canvas.drawBitmap(skybg, skySrc, screenRect, imagePaint);
-            skyStart += 10;
+            skyStart += 5;
             if (skyStart >= skybg.getWidth() / 2) {
                 skyStart = 0;
             }
@@ -106,7 +108,7 @@ public class GameThread extends Thread {
                 synchronized (holder) {
                     c = holder.lockCanvas();
                     draw(c);
-                    Thread.sleep(20);
+                    Thread.sleep(10);
                 }
             } catch (Exception e) {
             } finally {

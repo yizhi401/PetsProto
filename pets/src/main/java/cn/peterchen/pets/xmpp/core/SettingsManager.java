@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Map;
 
+import cn.peterchen.pets.global.NetConstants;
 import cn.peterchen.pets.xmpp.tool.ArrayStringSetting;
 import cn.peterchen.pets.xmpp.tool.Log;
 import cn.peterchen.pets.xmpp.tool.Tools;
@@ -376,8 +377,8 @@ public class SettingsManager {
      */
     private void importPreferences() {
 
-        serverHost = getString("serverHost", "182.92.74.54");
-        serverPort = getInt("serverPort", 5222);
+        serverHost = getString("serverHost", NetConstants.IM_SERVER);
+        serverPort = getInt("serverPort", NetConstants.IM_PORT);
         pingIntervalInSec = getInt("pingIntervalInSec", 600);
 
         _blockedResourcePrefixes.set(getString(

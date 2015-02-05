@@ -21,7 +21,6 @@ public class MasterRelationship {
      */
     private long relationshipTime;
 
-
     /**
      * 亲密度
      */
