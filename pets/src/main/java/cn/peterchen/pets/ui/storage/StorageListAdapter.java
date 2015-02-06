@@ -47,9 +47,9 @@ public class StorageListAdapter extends MyBaseAdapter<ShopItem> {
         }
 
         ShopItem item = data.get(position);
-        holder.name.setText(item.name + "");
-        holder.storage.setText("我的库存:" + item.myStorage);
-        holder.effects.setText("效果:" + item.effectsDes);
+//        holder.name.setText(item.name + "");
+//        holder.storage.setText("我的库存:" + item.myStorage);
+//        holder.effects.setText("效果:" + item.effectsDes);
 
         return convertView;
     }

@@ -13,33 +13,24 @@ import java.util.concurrent.ConcurrentHashMap;
  * 借鉴自AndroidAsyncHttp，版权属于原作者
  *
  * @author peter 修改
- *         <p/>
- *         <p>
- *         &nbsp;
- *         </p>
  *         使用方法:
- *         <p>
- *         &nbsp;
- *         </p>
+ *         RequestParams params = new RequestParams();
+ *         params.put(&quot;username&quot;, &quot;james&quot;);
+ *         params.put(&quot;password&quot;, &quot;123456&quot;);
+ *         params.put(&quot;email&quot;, &quot;my@email.com&quot;);
+ *         params.put(&quot;profile_picture&quot;, new File(&quot;pic.jpg&quot;)); // Upload a File
+ *         params.put(&quot;profile_picture2&quot;, someInputStream); // Upload an InputStream
+ *         params.put(&quot;profile_picture3&quot;, new ByteArrayInputStream(someBytes)); // Upload
+ *         // some
+ *         // bytes
  *         <p/>
- *         <pre>
- *                 RequestParams params = new RequestParams();
- *                 params.put(&quot;username&quot;, &quot;james&quot;);
- *                 params.put(&quot;password&quot;, &quot;123456&quot;);
- *                 params.put(&quot;email&quot;, &quot;my@email.com&quot;);
- *                 params.put(&quot;profile_picture&quot;, new File(&quot;pic.jpg&quot;)); // Upload a File
- *                 params.put(&quot;profile_picture2&quot;, someInputStream); // Upload an InputStream
- *                 params.put(&quot;profile_picture3&quot;, new ByteArrayInputStream(someBytes)); // Upload
- *                 // some
- *                 // bytes
- *
- *                 Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();
- *                 map.put(&quot;first_name&quot;, &quot;James&quot;);
- *                 map.put(&quot;last_name&quot;, &quot;Smith&quot;);
- *                 params.put(&quot;user&quot;, map); // url params:
- *                 // &quot;user[first_name]=James&amp;user[last_name]=Smith&quot;
- *
- *                 </pre>
+ *         Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();
+ *         map.put(&quot;first_name&quot;, &quot;James&quot;);
+ *         map.put(&quot;last_name&quot;, &quot;Smith&quot;);
+ *         params.put(&quot;user&quot;, map); // url params:
+ *         // &quot;user[first_name]=James&amp;user[last_name]=Smith&quot;
+ *         <p/>
+ *         </pre>
  */
 public class RequestParams {
 

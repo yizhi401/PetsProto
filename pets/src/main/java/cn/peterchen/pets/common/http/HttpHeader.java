@@ -48,12 +48,12 @@ public class HttpHeader {
      */
     private void initHeaders() {
         headers = new Header[6];
-        headers[1] = new BasicHeader("phoneModel", "google");
-        headerMap = new HashMap<String, String>();
-        for (int i = 0; i < headers.length; i++) {
-            headerMap.put(headers[i].getName(), headers[i].getValue());
-        }
-        printHeaders();
+//        headers[1] = new BasicHeader("phoneModel", "google");
+//        headerMap = new HashMap<String, String>();
+//        for (int i = 0; i < headers.length; i++) {
+//            headerMap.put(headers[i].getName(), headers[i].getValue());
+//        }
+//        printHeaders();
     }
 
     private void refreshHeaders() {

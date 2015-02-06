@@ -10,12 +10,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import cn.peterchen.pets.common.utils.GsonUtil;
+import cn.peterchen.pets.entity.Result;
 
 /**
  * volley所用到的request
@@ -38,20 +44,18 @@ public class VolleyRequest extends com.android.volley.Request<String> {
     private final Response.Listener<String> mListener;
     private Context context;
     private RequestParams parameters;
-    private String command;
     private String mRequestBody;
 
     /**
-     * 事实上这里给出的url只是一个参数command,url统一用的是URLConfig.COMMON_URL;
+     * The consturctor for jsonObject request
      *
      * @param context
      * @param url
      * @param params
      * @param listener
      */
-    public <T> VolleyRequest(Context context, String url, RequestParams params, final VolleyRequestListener listener) {
-        //目前只允许使用post方式传输
-        super(Method.POST, URLConfig.COMMON_URL, new Response.ErrorListener() {
+    public <T> VolleyRequest(Context context, String url, RequestParams params, final VolleyRequestListener<T> listener, final TypeToken<Result<T>> typeToken) {
+        super(Method.POST, url, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 listener.onNetError(volleyError);
@@ -60,45 +64,38 @@ public class VolleyRequest extends com.android.volley.Request<String> {
 
         this.context = context;
         this.parameters = params;
-        this.command = url;
         generateParams();
         mListener = new Response.Listener<String>() {
             @Override
-            public void onResponse(String jsonObject) {
-                //尚未测试volley返回的JSONObject是何种类型
-                Log.i("mInfo", "ResponseBody = " + jsonObject.toString());
-                listener.onSuccess(jsonObject);
+            public void onResponse(String jsonString) {
+                Log.i("mInfo", "ResponseBody = " + jsonString.toString());
+                try {
+                    Result<T> jsonResult = GsonUtil.fromJson(jsonString, typeToken);
+                    listener.onSuccess(jsonResult.getResult());
+                } catch (Exception e) {
+                    //if the request is not succeeded, the response cannot be parsed using type token
+                    Result<Object> jsonResult = GsonUtil.fromJson(jsonString, new TypeToken<Result<Object>>() {
+                    });
+                    if (!jsonResult.isSuccess()) {
+                        Log.i("mInfo", jsonResult.getMsg());
+                        listener.onResponseError(jsonResult.getMsg());
+                    }
+                }
+
             }
         };
-
     }
 
+
     private void generateParams() {
-
-        Map<String, Object> paramsMap = new HashMap<String, Object>();
-        paramsMap.putAll(HttpHeader.getInstance(context).getHeaderMap());
-        paramsMap.put("command", command);
-        paramsMap.put("param", parameters.getUrlParams());
-        mRequestBody = GsonUtil.toJson(paramsMap);
-
+        mRequestBody = GsonUtil.toJson(parameters.getUrlParams());
         Log.i("http", "requestBody = " + mRequestBody);
     }
 
 
-    /**
-     * 经确认，他们不要header
-     * 要把所有参数都直接放到参数里面
-     *
-     * @return
-     * @throws
-     */
-    @Override
-    public Map<String, String> getHeaders() throws AuthFailureError {
-        return super.getHeaders();
-    }
-
     @Override
     protected Map<String, String> getParams() throws AuthFailureError {
+//        return parameters.getUrlParams();
         return null;
     }
 
@@ -111,22 +108,10 @@ public class VolleyRequest extends com.android.volley.Request<String> {
 
 
     @Override
-    public byte[] getBody() {
-        try {
-            return mRequestBody == null ? null : mRequestBody.getBytes(PROTOCOL_CHARSET);
-        } catch (UnsupportedEncodingException uee) {
-            VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s",
-                    mRequestBody, PROTOCOL_CHARSET);
-            return null;
-        }
-    }
-
-    @Override
     protected Response<String> parseNetworkResponse(NetworkResponse response) {
         String parsed;
         try {
-            parsed =
-                    new String(response.data, PROTOCOL_CHARSET);
+            parsed = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
         } catch (UnsupportedEncodingException e) {
             return Response.error(new ParseError(e));
         }
@@ -135,9 +120,5 @@ public class VolleyRequest extends com.android.volley.Request<String> {
     }
 
 
-    @Override
-    public String getBodyContentType() {
-        return PROTOCOL_CONTENT_TYPE;
-    }
 }
 

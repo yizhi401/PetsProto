@@ -2,6 +2,9 @@ package cn.peterchen.pets.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import cn.peterchen.pets.common.db.Column;
 
 /**
  * 主人类
@@ -9,63 +12,69 @@ import java.util.List;
  * Created by peter on 15-1-27.
  */
 public class Master {
+    @Column(isPrimaryKey = true)
+    private Integer _ID;
 
-    private static Master master;
-    private long masterId;
+    @Column
+    private long mid;
+    @Column
+    private long rid;
+    @Column
+    private long uid;
+    @Column
     private String name;
+    @Column
+    private long money;
 
-    private List<ShopItem> shopItemList;
+    private Map<Integer, Integer> shopItemList;
 
-    public static Master getMaster() {
-        if (master == null) {
-            synchronized (Master.class) {
-                if (master == null) {
-                    master = new Master();
-                }
-            }
-        }
-        return master;
-    }
 
     private Master() {
-        initShopList();
     }
 
+    public long getMid() {
+        return mid;
+    }
 
-    private void initShopList() {
-        shopItemList = new ArrayList<ShopItem>();
-        ShopItem item;
-        item = new ShopItem();
-        item.name = "汉堡";
-        item.buyPrice = 31;
-        item.sellPrice = 29;
-        item.myStorage = 30;
-        shopItemList.add(item);
+    public void setMid(long mid) {
+        this.mid = mid;
+    }
 
-        item = new ShopItem();
-        item.name = "沐浴乳";
-        item.buyPrice = 58;
-        item.sellPrice = 56;
-        item.myStorage = 11;
-        shopItemList.add(item);
+    public long getRid() {
+        return rid;
+    }
 
-        item = new ShopItem();
-        item.name = "玩具";
-        item.buyPrice = 50;
-        item.sellPrice = 45;
-        item.myStorage = 10;
-        shopItemList.add(item);
+    public void setRid(long rid) {
+        this.rid = rid;
+    }
 
-        item = new ShopItem();
-        item.name = "药品";
-        item.buyPrice = 210;
-        item.sellPrice = 200;
-        item.myStorage = 15;
-        shopItemList.add(item);
+    public long getUid() {
+        return uid;
+    }
 
+    public void setUid(long uid) {
+        this.uid = uid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public long getMoney() {
+        return money;
+    }
+
+    public void setMoney(long money) {
+        this.money = money;
     }
 
     public List<ShopItem> getShopItemList() {
-        return shopItemList;
+        return null;
     }
 }
+
+

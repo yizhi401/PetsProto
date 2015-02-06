@@ -52,4 +52,13 @@ public class Ability {
      * thinkers
      */
     private int investigative;
+
+
+    public static Ability restoreAbility(){
+        return null;
+    }
+
+    public static Ability generateAbility(){
+        return null;
+    }
 }

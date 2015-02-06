@@ -13,7 +13,7 @@ import cn.peterchen.pets.global.Constant;
  */
 public class Pet {
 
-    private static Pet pet;
+    private Long pid;
 
     /**
      * 宠物的基础属性
@@ -38,36 +38,32 @@ public class Pet {
     /**
      * 现有主人
      */
-    private MasterRelationship mrelation;
+    private Relationship relation;
 
 
     public static Pet initPet(Context context) {
+        Pet pet = new Pet();
         SharedPreferences sharedPreferences = context.getSharedPreferences(Constant.SP_PET, Context.MODE_PRIVATE);
         if (sharedPreferences.getBoolean("isInit", false)) {
             //为初始化宠物，初始化
-            generateNewPet();
+            generateNewPet(pet);
         } else {
-            restoreMyPet(context);
+            restoreMyPet(context, pet);
         }
         return pet;
     }
 
-    private static void restoreMyPet(Context context) {
+    private static void restoreMyPet(Context context, Pet pet) {
         pet = new Pet();
         pet.property = Property.restoreProperty(context);
+        pet.ability = Ability.restoreAbility();
+        pet.education = Education.getEducation(pet.pid);
     }
 
-    private static void generateNewPet() {
+    private static void generateNewPet(Pet pet) {
         pet = new Pet();
         pet.property = Property.generateProperty();
-    }
-
-    public static Pet getPet() {
-        return pet;
-    }
-
-    public void eat(ShopItem food) {
-        pet.property.hungry += food.effect;
+        pet.ability = Ability.generateAbility();
     }
 
 }

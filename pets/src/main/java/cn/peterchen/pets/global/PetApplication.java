@@ -3,6 +3,10 @@ package cn.peterchen.pets.global;
 import android.app.Application;
 import android.content.Context;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+
+import cn.peterchen.pets.common.http.VolleyRequest;
 import cn.peterchen.pets.entity.Pet;
 
 /**
@@ -12,7 +16,7 @@ public class PetApplication extends Application {
 
     private Context context;
     private static PetApplication instance;
-//    private RequestQueue
+    private RequestQueue mRequestQueue;
 
     public static PetApplication getInstance() {
         return instance;
@@ -23,6 +27,7 @@ public class PetApplication extends Application {
         super.onCreate();
         instance = this;
         context = getBaseContext();
+        mRequestQueue = Volley.newRequestQueue(context);
         initPet();
     }
 
@@ -30,4 +35,7 @@ public class PetApplication extends Application {
         Pet.initPet(context);
     }
 
+    public RequestQueue getmRequestQueue() {
+        return mRequestQueue;
+    }
 }

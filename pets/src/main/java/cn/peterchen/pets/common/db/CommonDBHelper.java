@@ -6,6 +6,13 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import cn.peterchen.pets.entity.Career;
+import cn.peterchen.pets.entity.Course;
+import cn.peterchen.pets.entity.MasterShopTable;
+import cn.peterchen.pets.entity.PetCareerTable;
+import cn.peterchen.pets.entity.PetCourseTable;
+import cn.peterchen.pets.entity.ShopItem;
+
 
 /**
  * 数据库管理类，程序所有数据存于此。要添加一个新表或者删除一个表， 除了更新相应的实体类， 还要记得在这里执行建表或者删除表的功能。
@@ -67,12 +74,35 @@ public class CommonDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // 在此建表
+        createAllTable(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
         // 消息表、用户表增加字段,删除重建
+        deleteAllTable(db);
+        createAllTable(db);
+
+    }
+
+    private void createAllTable(SQLiteDatabase db) {
+        createTable(db, Career.class);
+        createTable(db, Course.class);
+        createTable(db, ShopItem.class);
+        createTable(db, PetCourseTable.class);
+        createTable(db, PetCareerTable.class);
+        createTable(db, MasterShopTable.class);
+
+    }
+
+    private void deleteAllTable(SQLiteDatabase db) {
+        deleteTable(db, Career.class);
+        deleteTable(db, Course.class);
+        deleteTable(db, ShopItem.class);
+        deleteTable(db, PetCourseTable.class);
+        deleteTable(db, PetCareerTable.class);
+        deleteTable(db, MasterShopTable.class);
+
     }
 
     /**
@@ -98,7 +128,7 @@ public class CommonDBHelper extends SQLiteOpenHelper {
                         createTableSQL.append(PRIMARY_KEY);
 
                     } else if (field.getType().getName()
-                            .equals(Integer.class.getName())) {
+                            .equals(Integer.class.getName()) || field.getType().getName().equals(Long.class.getName())) {
                         createTableSQL.append(field.getName());
                         createTableSQL.append(INTEGER_TYPE);
                         createTableSQL.append(COMMA_SEP);

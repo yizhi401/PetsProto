@@ -9,10 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import java.util.List;
+import java.util.Map;
 
 import cn.peterchen.pets.R;
 import cn.peterchen.pets.entity.Master;
 import cn.peterchen.pets.entity.ShopItem;
+import cn.peterchen.pets.entity.User;
+import cn.peterchen.pets.global.UserManager;
 
 /**
  * Created by peter on 15-1-27.
@@ -30,7 +33,7 @@ public class StorageFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        shopItemList = Master.getMaster().getShopItemList();
+        shopItemList = UserManager.getInstance().getUser().getMaster().getShopItemList();
         setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Dialog);
     }
 

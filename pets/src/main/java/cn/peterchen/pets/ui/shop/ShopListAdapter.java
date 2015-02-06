@@ -54,10 +54,10 @@ public class ShopListAdapter extends MyBaseAdapter<ShopItem> {
         }
 
         ShopItem item = data.get(position);
-        holder.name.setText(item.name + "");
-        holder.buyPrice.setText("购买:" + item.buyPrice);
-        holder.sellPrice.setText("出售:" + item.sellPrice);
-        holder.storage.setText("我的库存:" + item.myStorage);
+//        holder.name.setText(item.name + "");
+//        holder.buyPrice.setText("购买:" + item.buyPrice);
+//        holder.sellPrice.setText("出售:" + item.sellPrice);
+//        holder.storage.setText("我的库存:" + item.myStorage);
 
         return convertView;
     }
