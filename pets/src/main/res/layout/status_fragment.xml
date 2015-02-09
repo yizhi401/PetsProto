@@ -43,24 +43,24 @@
     <!-- 此处以后要封装一个专门的控件来显示-->
 
     <RelativeLayout
-        android:id="@+id/growth_layout"
+        android:id="@+id/experience_layout"
         android:layout_width="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/growth_text"
+            android:id="@+id/experience_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="成长" />
 
         <ProgressBar
-            android:id="@+id/growth_progress"
+            android:id="@+id/experience_progress"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:max="100"
-            android:layout_toRightOf="@id/growth_text"
+            android:layout_toRightOf="@id/experience_text"
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:progress="20" />
     </RelativeLayout>
@@ -157,5 +157,27 @@
             android:progress="20" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/cleaness_layout"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/cleaness_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="清洁" />
+
+        <ProgressBar
+            android:id="@+id/cleaness_progress"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:layout_toRightOf="@id/cleaness_text"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:progress="20" />
+    </RelativeLayout>
 
 </LinearLayout>

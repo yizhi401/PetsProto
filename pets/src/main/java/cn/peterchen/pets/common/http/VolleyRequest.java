@@ -72,6 +72,8 @@ public class VolleyRequest extends com.android.volley.Request<String> {
                 try {
                     Result<T> jsonResult = GsonUtil.fromJson(jsonString, typeToken);
                     listener.onSuccess(jsonResult.getResult());
+                } catch (IllegalStateException e) {
+                    listener.onResponseError("json parsed error! ");
                 } catch (Exception e) {
                     //if the request is not succeeded, the response cannot be parsed using type token
                     Result<Object> jsonResult = GsonUtil.fromJson(jsonString, new TypeToken<Result<Object>>() {
@@ -95,8 +97,8 @@ public class VolleyRequest extends com.android.volley.Request<String> {
 
     @Override
     protected Map<String, String> getParams() throws AuthFailureError {
-//        return parameters.getUrlParams();
-        return null;
+        return parameters.getUrlParams();
+//        return null;
     }
 
 

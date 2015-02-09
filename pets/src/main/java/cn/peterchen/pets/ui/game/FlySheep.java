@@ -73,18 +73,18 @@ public class FlySheep {
                 break;
         }
 
-        if (gameController.getCommand() == GameController.COMMAND_PRESSED) {
+        if (gameController.getGameStatus() == GameController.COMMAND_PRESSED) {
             //用户点击了跳跃
             jumpStartMS = System.currentTimeMillis();
             isJumping = true;
-            gameController.setCommand(GameController.COMMAND_JUMPING);
+//            gameController.setCommand(GameController.COMMAND_JUMPING);
         }
         if (isJumping) {
             long ms = System.currentTimeMillis() - jumpStartMS;
             jumpHeight = (int) (-0.5f * G * ms * ms + START_SPEED * ms);
             if (jumpHeight <= 0) {
                 isJumping = false;
-                gameController.setCommand(GameController.COMMAND_NORMAL);
+//                gameController.setCommand(GameController.COMMAND_NORMAL);
             }
             jumpHeight = 0;
         }

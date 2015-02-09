@@ -56,9 +56,9 @@ public class ChatFragment extends DialogFragment {
         setStyle(DialogFragment.STYLE_NO_FRAME, android.R.style.Theme_Holo_Dialog);
 //        friend = new User("boy2", "boy2");
         if (SettingsManager.getSettingsManager(getActivity()).getLogin().equals("boy")) {
-            friend = new User("boy2", "boy2");
+//            friend = new User("boy2", "boy2");
         } else {
-            friend = new User("boy", "boy");
+//            friend = new User("boy", "boy");
         }
     }
 

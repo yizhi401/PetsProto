@@ -1,5 +1,7 @@
 package cn.peterchen.pets.common.http;
 
+import android.util.Log;
+
 import com.android.volley.VolleyError;
 
 /**
@@ -12,11 +14,11 @@ public abstract class VolleyRequestListenerImp<T> implements VolleyRequestListen
 
     @Override
     public void onNetError(VolleyError error) {
-
+        Log.i("mInfo", "Volley Error!");
     }
 
     @Override
     public void onResponseError(String msg) {
-
+        Log.i("mInfo", "Request Error! Error message = " + msg);
     }
 }

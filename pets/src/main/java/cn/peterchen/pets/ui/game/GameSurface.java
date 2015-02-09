@@ -9,7 +9,7 @@ import android.view.SurfaceView;
 /**
  * Created by peter on 15-1-29.
  */
-public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
+public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, GameController.GameControlObserver {
 
     private GameThread gameThread;
     private Context context;
@@ -35,6 +35,7 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void init() {
+        GameController.getInstance().attach(this);
         holder = this.getHolder();
         holder.addCallback(this);
         gameThread = new GameThread(context, holder, this);
@@ -59,5 +60,10 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceDestroyed(SurfaceHolder holder) {
         gameThread.setRun(false);
         gameThread = null;
+    }
+
+    @Override
+    public void update(GameCommand command) {
+
     }
 }

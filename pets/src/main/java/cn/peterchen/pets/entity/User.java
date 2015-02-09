@@ -1,13 +1,18 @@
 package cn.peterchen.pets.entity;
 
-import cn.peterchen.pets.common.db.Column;
-import cn.peterchen.pets.common.db.Table;
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import cn.peterchen.pets.global.Constant;
+import cn.peterchen.pets.global.PetApplication;
 
 /**
  * 用户类
  * Created by peter on 15-1-27.
  */
 public class User {
+
+    private Context context;
 
     private Long id;
 
@@ -23,10 +28,64 @@ public class User {
 
     private Pet pet;
 
-    public User(String userName, String password) {
-        this.username = userName;
-        this.password = password;
+    public User() {
+        initUser();
     }
+
+    private void initUser() {
+        this.context = PetApplication.getInstance().getBaseContext();
+        getUserFromSP();
+        restorePetAndMaster();
+    }
+
+    private void saveUserToSP() {
+        SharedPreferences sp = context.getSharedPreferences(Constant.SP_USER, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putLong("id", getId());
+        editor.putLong("pid", getPid());
+        editor.putLong("mid", getMid());
+        editor.putString("username", getUsername());
+        editor.putString("password", getPassword());
+        editor.apply();
+    }
+
+
+    private boolean getUserFromSP() {
+        SharedPreferences sp = context.getSharedPreferences(Constant.SP_USER, Context.MODE_PRIVATE);
+        setId(sp.getLong("id", -1));
+        setPid(sp.getLong("pid", -1));
+        setMid(sp.getLong("mid", -1));
+        setUsername(sp.getString("username", ""));
+        setPassword(sp.getString("password", ""));
+        if (getId() == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public void restorePetAndMaster() {
+        setPet(Pet.restoreMyPet(context, pid));
+        setMaster(Master.restoreMaster(context, mid));
+    }
+
+
+    private void generateNewMaster() {
+        master = new Master();
+        master.setId(getId());
+    }
+
+//    private void generateNewPet() {
+//        RequestParams params = new RequestParams();
+//        params.put("uid", getId());
+//        HttpUtil.jsonRequest(context, URLConfig.GET_NEW_PET, params, new TypeToken<Result<Pet>>() {
+//        }, new VolleyRequestListenerImp<Pet>() {
+//            @Override
+//            public void onSuccess(Pet response) {
+//                setPet(response);
+//            }
+//        });
+//    }
 
     public Long getId() {
         return id;
@@ -53,7 +112,10 @@ public class User {
     }
 
     public Long getMid() {
-        return mid;
+        if (mid == null)
+            return (long) -1;
+        else
+            return mid;
     }
 
     public void setMid(Long mid) {
@@ -65,11 +127,16 @@ public class User {
     }
 
     public void setMaster(Master master) {
+        this.mid = master.getId();
         this.master = master;
     }
 
     public Long getPid() {
-        return pid;
+        if (pid == null) {
+            return (long) -1;
+        } else {
+            return pid;
+        }
     }
 
     public void setPid(Long pid) {
@@ -81,9 +148,17 @@ public class User {
     }
 
     public void setPet(Pet pet) {
+        this.pid = pet.getId();
         this.pet = pet;
     }
 
+    @Override
+    protected void finalize() throws Throwable {
+        saveUserToSP();
+        pet.saveMyPetToSP(context);
+        master.saveMasterToSP(context);
+        super.finalize();
+    }
 
     @Override
     public String toString() {
@@ -95,4 +170,6 @@ public class User {
                 ", pid=" + pid +
                 '}';
     }
+
+
 }

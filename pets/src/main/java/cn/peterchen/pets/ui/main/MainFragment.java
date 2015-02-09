@@ -27,6 +27,7 @@ import cn.peterchen.pets.R;
 import cn.peterchen.pets.global.Constant;
 import cn.peterchen.pets.ui.chat.ChatFragment;
 import cn.peterchen.pets.ui.function.FunctionFragment;
+import cn.peterchen.pets.ui.game.GameCommand;
 import cn.peterchen.pets.ui.game.GameController;
 import cn.peterchen.pets.ui.game.GameSurface;
 import cn.peterchen.pets.ui.search.SearchFragment;
@@ -181,9 +182,14 @@ public class MainFragment extends Fragment {
         petNameText = (TextView) rootView.findViewById(R.id.name);
         petStatusText = (TextView) rootView.findViewById(R.id.status);
         btn1 = (Button) rootView.findViewById(R.id.btn1);
+        btn1.setOnClickListener(getBtn1OnclickListener());
         btn2 = (Button) rootView.findViewById(R.id.btn2);
+        btn2.setOnClickListener(getBtn2OnclickListener());
         btn3 = (Button) rootView.findViewById(R.id.btn3);
+        btn3.setOnClickListener(getBtn3OnclickListener());
         btn4 = (Button) rootView.findViewById(R.id.btn4);
+        btn4.setOnClickListener(getBtn4OnclickListener());
+
 
         surface = (GameSurface) rootView.findViewById(R.id.game_surface);
         surface.setOnTouchListener(new View.OnTouchListener() {
@@ -201,8 +207,8 @@ public class MainFragment extends Fragment {
                         break;
                     case MotionEvent.ACTION_UP:
                         Log.i("mInfo", "Action Up");
-                        if (GameController.getInstance().getCommand() == GameController.COMMAND_NORMAL)
-                            GameController.getInstance().setCommand(GameController.COMMAND_PRESSED);
+//                        if (GameController.getInstance().getCommand() == GameController.COMMAND_NORMAL)
+//                            GameController.getInstance().setCommand(GameController.COMMAND_PRESSED);
                         break;
                     default:
                         break;
@@ -211,6 +217,69 @@ public class MainFragment extends Fragment {
             }
         });
     }
+
+    /**
+     * pet mod --> find something to eat
+     * master mod --> eating
+     *
+     * @return
+     */
+    private View.OnClickListener getBtn1OnclickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (viewType == Constant.MASTER_VIEW) {
+                    GameController.getInstance().setCommand(GameCommand.MASTER_EAT);
+                }
+            }
+        };
+    }
+
+    /**
+     * pet mod --> sleeping
+     * master mod --> studying
+     *
+     * @return
+     */
+    private View.OnClickListener getBtn2OnclickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (viewType == Constant.MASTER_VIEW) {
+                    GameController.getInstance().setCommand(GameCommand.MASTER_STUDY);
+                }
+            }
+        };
+    }
+
+    /**
+     * pet mod --> playing
+     * master mod --> working
+     *
+     * @return
+     */
+    private View.OnClickListener getBtn3OnclickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (viewType == Constant.MASTER_VIEW) {
+                    GameController.getInstance().setCommand(GameCommand.MASTER_WORK);
+                }
+            }
+        };
+    }
+
+    private View.OnClickListener getBtn4OnclickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (viewType == Constant.MASTER_VIEW) {
+//                    GameController.getInstance().setCommand(GameCommand.MASTER);
+                }
+            }
+        };
+    }
+
 
     private View.OnClickListener getFragmentClickListener(final Class<? extends DialogFragment> dialogFragmentClass, final String tag) {
         return new View.OnClickListener() {

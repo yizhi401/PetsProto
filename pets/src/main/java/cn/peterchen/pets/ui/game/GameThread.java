@@ -77,7 +77,7 @@ public class GameThread extends Thread {
 
 
     private void draw(Canvas canvas) {
-        if (gameController.gameStatus == GameController.STATUS_MINI_GAME) {
+        if (gameController.getGameStatus() == GameController.STATUS_MINI_GAME) {
             skySrc.top = 0;
             skySrc.left = skyStart;
             skySrc.right = skySrc.left + skybg.getWidth() / 2;

@@ -6,9 +6,6 @@ import android.content.Context;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-import cn.peterchen.pets.common.http.VolleyRequest;
-import cn.peterchen.pets.entity.Pet;
-
 /**
  * Created by peter on 15-1-27.
  */
@@ -28,11 +25,6 @@ public class PetApplication extends Application {
         instance = this;
         context = getBaseContext();
         mRequestQueue = Volley.newRequestQueue(context);
-        initPet();
-    }
-
-    private void initPet() {
-        Pet.initPet(context);
     }
 
     public RequestQueue getmRequestQueue() {

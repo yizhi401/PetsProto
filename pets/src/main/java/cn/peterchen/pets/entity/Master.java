@@ -1,10 +1,14 @@
 package cn.peterchen.pets.entity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import cn.peterchen.pets.common.db.Column;
+import cn.peterchen.pets.global.Constant;
 
 /**
  * 主人类
@@ -12,11 +16,11 @@ import cn.peterchen.pets.common.db.Column;
  * Created by peter on 15-1-27.
  */
 public class Master {
+
     @Column(isPrimaryKey = true)
     private Integer _ID;
-
     @Column
-    private long mid;
+    private long id;
     @Column
     private long rid;
     @Column
@@ -28,16 +32,23 @@ public class Master {
 
     private Map<Integer, Integer> shopItemList;
 
-
-    private Master() {
+    public static Master restoreMaster(Context context, Long mid) {
+        return new Master();
     }
 
-    public long getMid() {
-        return mid;
+    public void saveMasterToSP(Context context) {
     }
 
-    public void setMid(long mid) {
-        this.mid = mid;
+    public Master() {
+    }
+
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public long getRid() {

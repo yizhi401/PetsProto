@@ -10,4 +10,5 @@ public class Constant {
 
 
     public static final String SP_PET = "sp_pet";
+    public static final String SP_USER = "sp_user";
 }

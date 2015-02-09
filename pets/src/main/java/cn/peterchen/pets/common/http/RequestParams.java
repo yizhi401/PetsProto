@@ -10,38 +10,19 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 通用Request Parameter类
- * 借鉴自AndroidAsyncHttp，版权属于原作者
  *
  * @author peter 修改
- *         使用方法:
- *         RequestParams params = new RequestParams();
- *         params.put(&quot;username&quot;, &quot;james&quot;);
- *         params.put(&quot;password&quot;, &quot;123456&quot;);
- *         params.put(&quot;email&quot;, &quot;my@email.com&quot;);
- *         params.put(&quot;profile_picture&quot;, new File(&quot;pic.jpg&quot;)); // Upload a File
- *         params.put(&quot;profile_picture2&quot;, someInputStream); // Upload an InputStream
- *         params.put(&quot;profile_picture3&quot;, new ByteArrayInputStream(someBytes)); // Upload
- *         // some
- *         // bytes
- *         <p/>
- *         Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();
- *         map.put(&quot;first_name&quot;, &quot;James&quot;);
- *         map.put(&quot;last_name&quot;, &quot;Smith&quot;);
- *         params.put(&quot;user&quot;, map); // url params:
- *         // &quot;user[first_name]=James&amp;user[last_name]=Smith&quot;
- *         <p/>
- *         </pre>
  */
 public class RequestParams {
 
     protected final static String LOG_TAG = "RequestParams";
-    protected final ConcurrentHashMap<String, Object> urlParams = new ConcurrentHashMap<String, Object>();
+    protected final ConcurrentHashMap<String, String> urlParams = new ConcurrentHashMap<String, String>();
 
     /**
      * Constructs a new empty {@code RequestParams} instance.
      */
     public RequestParams() {
-        this((Map<String, Object>) null);
+        this((Map<String, String>) null);
     }
 
     /**
@@ -50,9 +31,9 @@ public class RequestParams {
      *
      * @param source the source key/value string map to add.
      */
-    public RequestParams(Map<String, Object> source) {
+    public RequestParams(Map<String, String> source) {
         if (source != null) {
-            for (Map.Entry<String, Object> entry : source.entrySet()) {
+            for (Map.Entry<String, String> entry : source.entrySet()) {
                 put(entry.getKey(), entry.getValue());
             }
         }
@@ -67,7 +48,7 @@ public class RequestParams {
      * @param value the value string for the initial param.
      */
     public RequestParams(final String key, final String value) {
-        this(new HashMap<String, Object>() {
+        this(new HashMap<String, String>() {
             {
                 put(key, value);
             }
@@ -95,7 +76,7 @@ public class RequestParams {
 
     public void put(String key, Object value) {
         if (value != null)
-            urlParams.put(key, value);
+            urlParams.put(key, value.toString());
     }
 
     /**
@@ -161,7 +142,7 @@ public class RequestParams {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        for (ConcurrentHashMap.Entry<String, Object> entry : urlParams
+        for (ConcurrentHashMap.Entry<String, String> entry : urlParams
                 .entrySet()) {
             if (result.length() > 0)
                 result.append("&");
@@ -175,16 +156,7 @@ public class RequestParams {
     }
 
 
-    private List<BasicNameValuePair> getParamsList(String key, Object value) {
-        List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-        if (value instanceof String) {
-            params.add(new BasicNameValuePair(key, (String) value));
-        }
-        return params;
-    }
-
-
-    public ConcurrentHashMap<String, Object> getUrlParams() {
+    public ConcurrentHashMap<String, String> getUrlParams() {
         return urlParams;
     }
 
