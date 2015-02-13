@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Send Game Command through this controller, and get game status from this controller.
  * Created by peter on 15-1-29.
  */
 public class GameController {
@@ -14,6 +15,7 @@ public class GameController {
     public static final int STATUS_MINI_GAME = 1;
     public static final int STATUS_EATING = 2;
     public static final int STATUS_WORKING = 3;
+    public static final int STATUS_NORMAL = 4;
 
     public static final int COMMAND_PRESSED = 1;
     public static final int COMMAND_NORMAL = 0;
@@ -27,8 +29,9 @@ public class GameController {
 
     private GameCommand command;
 
-   private GameController() {
+    private GameController() {
         gameControlObservers = new ArrayList<>();
+        gameStatus = STATUS_NORMAL;
     }
 
     public static GameController getInstance() {
@@ -46,9 +49,6 @@ public class GameController {
         return gameStatus;
     }
 
-    public void setGameStatus(int gameStatus) {
-        this.gameStatus = gameStatus;
-    }
 
     public void attach(GameControlObserver observer) {
         gameControlObservers.add(observer);
@@ -64,6 +64,14 @@ public class GameController {
 
     public void setCommand(GameCommand command) {
         this.command = command;
+        switch (command) {
+            case START_MINI_GAME:
+                gameStatus = GameController.STATUS_MINI_GAME;
+                break;
+            case STOP_MINI_GAME:
+                gameStatus = GameController.STATUS_NORMAL;
+                break;
+        }
         update(command);
     }
 

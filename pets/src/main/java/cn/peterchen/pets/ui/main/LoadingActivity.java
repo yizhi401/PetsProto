@@ -58,8 +58,8 @@ public class LoadingActivity extends Activity {
 
     private class LoadingAsnycTask extends AsyncTask<Void, Integer, Boolean> {
 
-        private static final int TOTAL_STEPS = 5;
-        private int steps = 0;
+        private static final float TOTAL_STEPS = 5;
+        private float steps = 0;
         private boolean hasFailed = false;
         private Long uid;
 
@@ -78,7 +78,7 @@ public class LoadingActivity extends Activity {
             //Loading the animation bitmaps into memory
             PatrickAnim.getInstance(LoadingActivity.this);
             steps++;
-            publishProgress(steps / TOTAL_STEPS * 100);
+            publishProgress((int) (steps / TOTAL_STEPS * 100));
             getUserId();
             while (steps < TOTAL_STEPS && !hasFailed) {
                 //check the progress every 20ms, avoiding asking all the time
@@ -101,7 +101,7 @@ public class LoadingActivity extends Activity {
                 @Override
                 public void onSuccess(List<Course> response) {
                     steps++;
-                    publishProgress(steps / TOTAL_STEPS * 100);
+                    publishProgress((int) (steps / TOTAL_STEPS * 100));
 
                 }
 
@@ -128,7 +128,8 @@ public class LoadingActivity extends Activity {
                 @Override
                 public void onSuccess(List<Career> response) {
                     steps++;
-                    publishProgress(steps / TOTAL_STEPS * 100);
+                    publishProgress((int) (steps / TOTAL_STEPS * 100));
+
                 }
 
                 @Override
@@ -157,7 +158,7 @@ public class LoadingActivity extends Activity {
                 @Override
                 public void onSuccess(List<ShopItem> response) {
                     steps++;
-                    publishProgress(steps / TOTAL_STEPS * 100);
+                    publishProgress((int) (steps / TOTAL_STEPS * 100));
 
                 }
 
@@ -181,7 +182,8 @@ public class LoadingActivity extends Activity {
             if (UserManager.getInstance().getUser() != null) {
                 uid = UserManager.getInstance().getUser().getId();
                 steps++;
-                publishProgress(steps / TOTAL_STEPS * 100);
+                publishProgress((int) (steps / TOTAL_STEPS * 100));
+
                 getShopItem();
                 getCareer();
                 getCourses();
@@ -193,7 +195,8 @@ public class LoadingActivity extends Activity {
                     public void onSuccess(User response) {
                         //A new user has come, and create a new master and a pet for him/her
                         steps++;
-                        publishProgress(steps / TOTAL_STEPS * 100);
+                        publishProgress((int) (steps / TOTAL_STEPS * 100));
+
                         uid = response.getId();
                         UserManager.getInstance().setUser(response);
                         createNewMasterAndPet();
@@ -227,7 +230,7 @@ public class LoadingActivity extends Activity {
                 @Override
                 public void onSuccess(Pet response) {
                     steps++;
-                    publishProgress(steps / TOTAL_STEPS * 100);
+                    publishProgress((int) (steps / TOTAL_STEPS * 100));
                     user.setPet(response);
                 }
 

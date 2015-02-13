@@ -3,25 +3,17 @@ package cn.peterchen.pets.ui.main;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Vibrator;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import cn.peterchen.pets.R;
 import cn.peterchen.pets.global.Constant;
@@ -38,7 +30,7 @@ import cn.peterchen.pets.ui.storage.StorageFragment;
 /**
  * created by Peter
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements GameController.GameControlObserver {
 
 
     private int viewType;
@@ -61,12 +53,11 @@ public class MainFragment extends Fragment {
     private Button btn4;
     private Button funcBtn;
 
+    private Button runBtn;
 
-    private SensorManager sensorManager;
-    private Vibrator vibrator;
-    private static final int SENSOR_SHAKE = 10;
 
-    private SensorEventListener sensorEventListener = new MySensorEventListener();
+    private static final int SHOW_RUN_BTN = 10;
+
 
     /**
      * 动作执行
@@ -77,11 +68,8 @@ public class MainFragment extends Fragment {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-                case SENSOR_SHAKE:
-//                    Toast.makeText(getActivity(), "检测到摇晃，执行操作！", Toast.LENGTH_SHORT).show();
-//                    Log.i("mInfo", "检测到摇晃，执行操作！");
-                    GameController.getInstance().setGameStatus(GameController.STATUS_MINI_GAME);
-                    break;
+                case SHOW_RUN_BTN:
+                    runBtn.setVisibility(View.VISIBLE);
             }
         }
 
@@ -110,8 +98,8 @@ public class MainFragment extends Fragment {
         if (getArguments() != null) {
             viewType = getArguments().getInt("viewType");
         }
-        sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
-        vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+
+        GameController.getInstance().attach(this);
     }
 
     @Override
@@ -190,6 +178,15 @@ public class MainFragment extends Fragment {
         btn4 = (Button) rootView.findViewById(R.id.btn4);
         btn4.setOnClickListener(getBtn4OnclickListener());
 
+        runBtn = (Button) rootView.findViewById(R.id.run);
+        runBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GameController.getInstance().setCommand(GameCommand.START_MINI_GAME);
+                runBtn.setVisibility(View.GONE);
+            }
+        });
+
 
         surface = (GameSurface) rootView.findViewById(R.id.game_surface);
         surface.setOnTouchListener(new View.OnTouchListener() {
@@ -207,6 +204,12 @@ public class MainFragment extends Fragment {
                         break;
                     case MotionEvent.ACTION_UP:
                         Log.i("mInfo", "Action Up");
+                        if (GameController.getInstance().getGameStatus() == GameController.STATUS_MINI_GAME) {
+                            GameController.getInstance().setCommand(GameCommand.JUMP);
+                        } else if (GameController.getInstance().getGameStatus() == GameController.STATUS_NORMAL) {
+                            //Normal Status: play random anim
+                            GameController.getInstance().setCommand(GameCommand.PLAY);
+                        }
 //                        if (GameController.getInstance().getCommand() == GameController.COMMAND_NORMAL)
 //                            GameController.getInstance().setCommand(GameController.COMMAND_PRESSED);
                         break;
@@ -246,7 +249,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (viewType == Constant.MASTER_VIEW) {
-                    GameController.getInstance().setCommand(GameCommand.MASTER_STUDY);
+                    GameController.getInstance().setCommand(GameCommand.STUDY);
                 }
             }
         };
@@ -263,7 +266,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (viewType == Constant.MASTER_VIEW) {
-                    GameController.getInstance().setCommand(GameCommand.MASTER_WORK);
+                    GameController.getInstance().setCommand(GameCommand.WORK);
                 }
             }
         };
@@ -311,24 +314,29 @@ public class MainFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (sensorManager != null) {
-            sensorManager.registerListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
-        }
     }
 
 
     @Override
     public void onPause() {
         super.onPause();
-        if (sensorManager != null) {
-            sensorManager.unregisterListener(sensorEventListener);
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void update(GameCommand command) {
+        switch (command) {
+            case STOP_MINI_GAME:
+                handler.sendEmptyMessage(SHOW_RUN_BTN);
+                break;
+            default:
+                break;
+        }
     }
 
     /**
@@ -341,31 +349,5 @@ public class MainFragment extends Fragment {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
-
-    class MySensorEventListener implements SensorEventListener {
-
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-            // 传感器信息改变时执行该方法
-            float[] values = event.values;
-            float x = values[0]; // x轴方向的重力加速度，向右为正
-            float y = values[1]; // y轴方向的重力加速度，向前为正
-            float z = values[2]; // z轴方向的重力加速度，向上为正
-            int threShold = 14;
-            if (Math.abs(x) > threShold || Math.abs(y) > threShold || Math.abs(z) > threShold) {
-                vibrator.vibrate(200);
-                Message msg = new Message();
-                msg.what = SENSOR_SHAKE;
-                handler.sendMessage(msg);
-            }
-
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-        }
-    }
-
 
 }

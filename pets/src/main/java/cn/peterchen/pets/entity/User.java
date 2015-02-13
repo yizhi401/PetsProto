@@ -38,6 +38,12 @@ public class User {
         restorePetAndMaster();
     }
 
+    public void saveUser() {
+        saveUserToSP();
+        pet.saveMyPetToSP(context);
+        master.saveMasterToSP(context);
+    }
+
     private void saveUserToSP() {
         SharedPreferences sp = context.getSharedPreferences(Constant.SP_USER, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
@@ -150,14 +156,6 @@ public class User {
     public void setPet(Pet pet) {
         this.pid = pet.getId();
         this.pet = pet;
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        saveUserToSP();
-        pet.saveMyPetToSP(context);
-        master.saveMasterToSP(context);
-        super.finalize();
     }
 
     @Override
